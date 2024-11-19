@@ -79,14 +79,15 @@ public class BooksMain
 		
 		// 6. sql객체 반납.
 		DBConnection.dbClose(con, stmt);
+
 	}
 
 	private static void booksUpdate () throws SQLException	// 수정.
 	{
 		
 		// Connection
-				Connection con = null;
-				Statement stmt = null;
+		Connection con = null;
+		Statement stmt = null;
 
 		// 1. Load, 2. Connect
 		con = DBConnection.dbCon();
@@ -102,11 +103,11 @@ public class BooksMain
 						"', PRICE=" + books.getPrice() +
 						"WHERE ID = " + books.getId());
 
-				// 4. 내용 입력에대한 체크.
-				System.out.println((result != 0)? "수정 성공." : "수정 실패.");
+		// 4. 내용 입력에대한 체크.
+		System.out.println((result != 0)? "수정 성공." : "수정 실패.");
 				
-				// 6. sql객체 반납.
-				DBConnection.dbClose(con, stmt);
+		// 6. sql객체 반납.
+		DBConnection.dbClose(con, stmt);
 	}
 
 	private static void booksDelete () throws SQLException	// 삭제.
