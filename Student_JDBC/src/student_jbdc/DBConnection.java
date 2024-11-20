@@ -55,7 +55,7 @@ public class DBConnection
 		}
 
 		return con;
-	}*/
+		}*/
 	
 	
 	public static void dbClose(Connection con, Statement stmt, ResultSet rs)
