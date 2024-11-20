@@ -7,6 +7,7 @@ public interface BookMenu
 						,INSERT = 2
 						,UPDATE = 3	
 						,DELETE = 4
-						,SALARY_UP = 5
-						,EXIT = 6;
+						,SALARY_UP_PROC = 5
+						,SALARY_UP_FUNC = 6
+						,EXIT = 7;
 }
