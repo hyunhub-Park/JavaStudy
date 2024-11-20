@@ -17,44 +17,61 @@ public class Books
 		this.year = year;
 		this.price = price;
 	}
-	public int getId() {
+	
+	public int getId()
+	{
 		return id;
 	}
-	public void setId(int id) {
+	
+	public void setId(int id)
+	{
 		this.id = id;
 	}
-	public String getTitle() {
+	
+	public String getTitle()
+	{
 		return title;
 	}
-	public void setTitle(String title) {
+	
+	public void setTitle(String title)
+	{
 		this.title = title;
 	}
-	public String getPublisher() {
+	
+	public String getPublisher()
+	
+	{
 		return publisher;
 	}
-	public void setPublisher(String publisher) {
+	
+	public void setPublisher(String publisher)
+	{
 		this.publisher = publisher;
 	}
-	public String getYear() {
+	
+	public String getYear()
+	{
 		return year;
 	}
-	public void setYear(String year) {
+	
+	public void setYear(String year)
+	{
 		this.year = year;
 	}
-	public int getPrice() {
+	public int getPrice()
+	
+	{
 		return price;
 	}
-	public void setPrice(int price) {
+	
+	public void setPrice(int price)
+	{
 		this.price = price;
 	}
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "Books [id=" + id + ", title=" + title + ", publisher=" + publisher + ", year=" + year + ", price="
 				+ price + "]";
 	}
-	
-	
-	
-	
 }
-
