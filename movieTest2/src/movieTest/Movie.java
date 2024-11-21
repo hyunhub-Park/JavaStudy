@@ -2,11 +2,11 @@ package movieTest;
 
 public class Movie
 {
-	int id;	// ID       NOT NULL NUMBER(4)    
-	String title;	// TITLE             VARCHAR2(20) 
-	String director;	// DIRECTOR          VARCHAR2(30) 
-	String year;	// YEAR              VARCHAR2(10) 
-	int price;	// PRICE             NUMBER(6)    
+	private int id;	// ID       NOT NULL NUMBER(4)    
+	private String title;	// TITLE             VARCHAR2(20) 
+	private String director;	// DIRECTOR          VARCHAR2(30) 
+	private String year;	// YEAR              VARCHAR2(10) 
+	private int price;	// PRICE             NUMBER(6)    
 	
 	public Movie (int id, String title, String director, String year, int price)
 	{
