@@ -62,14 +62,14 @@ public class CafeMenuRegisterManager
 	// 입력받은 주문내역 출력.
 	public static void printCafeMenuList(ArrayList <CafeMenuVO> cafeMenuList)
 	{
-		System.out.println("------------------------------------");
+		System.out.println("---------------------------------------------------------------------------------");
 		
 		for (CafeMenuVO p : cafeMenuList)
 		{
 			System.out.println(p.toString());
 		}
 		
-		System.out.println("------------------------------------");
+		System.out.println("---------------------------------------------------------------------------------");
 	}
 
 }

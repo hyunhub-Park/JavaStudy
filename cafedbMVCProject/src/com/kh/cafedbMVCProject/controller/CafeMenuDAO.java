@@ -13,7 +13,8 @@ import com.kh.cafedbMVCProject.model.CafeMenuVO;
 
 public class CafeMenuDAO
 {
-	// public static final String MENU_SELECT = "SELECT * FROM MENU";
+	// public static final String MENU_SELECT = "SELECT * FROM MENU"; ORDER BY NO;절 추가해보기.
+	public static final String MENU_SELECT = "SELECT * FROM MENU ORDER BY NO";
 	public static final String MENU_INSERT = "INSERT INTO MENU VALUES(MENU_NO_SEQ.nextval, ?, ?, ?)";
 	
 	public static ArrayList <CafeMenuVO> cafeMenuSelect() throws SQLException
@@ -25,7 +26,7 @@ public class CafeMenuDAO
 		
 		con = DBUtility.dbCon();
 		stmt = con.createStatement();
-		rs = stmt.executeQuery(MENU_INSERT);
+		rs = stmt.executeQuery(MENU_SELECT);
 		
 		if(rs.next()) 
 		{

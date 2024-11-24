@@ -29,41 +29,50 @@ public class CafeMenuVO
 		this.dessert = dessert;
 	}
 
-	public int getNo() {
+	public int getNo()
+	{
 		return no;
 	}
 
-	public void setNo(int no) {
+	public void setNo(int no)
+	{
 		this.no = no;
 	}
 
-	public String getDrink() {
+	public String getDrink()
+	{
 		return drink;
 	}
 
-	public void setDrink(String drink) {
+	public void setDrink(String drink)
+	{
 		this.drink = drink;
 	}
 
-	public String getSnack() {
+	public String getSnack()
+	{
 		return snack;
 	}
 
-	public void setSnack(String snack) {
+	public void setSnack(String snack)
+	{
 		this.snack = snack;
 	}
 
-	public String getDessert() {
+	public String getDessert()
+	{
 		return dessert;
 	}
 
-	public void setDessert(String dessert) {
+	public void setDessert(String dessert)
+	{
 		this.dessert = dessert;
 	}
 
 	@Override
 	public String toString() 
 	{
-		return "CafeMenuVO [no=" + no + ", drink=" + drink + ", snack=" + snack + ", dessert=" + dessert + "]";
+		return "주문번호 " + String.format("%5d", no) + ">>" + String.format("%5s", drink) +
+				String.format("%5s", snack) + String.format("%5s", dessert);
 	}
 }

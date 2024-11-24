@@ -5,9 +5,20 @@ public class EventVO
 	private int no;	// fk(MENU테이블로부터 NO참조.)
 	private String area;	// pk
 	private int count;
+	
+	private String dessert;
+	private String drink;
+	private String snack;
 
 	public EventVO()
 	{
+	}
+	
+	public EventVO(String area, int count)
+	{
+		super();
+		this.area = area;
+		this.count = count;
 	}
 	
 	public EventVO(int no, String area, int count)
@@ -17,6 +28,7 @@ public class EventVO
 		this.area = area;
 		this.count = count;
 	}
+	
 
 	public int getNo() {
 		return no;
@@ -43,8 +55,10 @@ public class EventVO
 	}
 
 	@Override
-	public String toString()
-	{
-		return "EventDAO [no=" + no + ", area=" + area + ", count=" + count + "]";
-	}	
+	public String toString() {
+		return "EventVO [no=" + no + ", area=" + area + ", count=" + count + ", dessert=" + dessert + ", drink=" + drink
+				+ ", snack=" + snack + "]";
+	}
+	
+	
 }

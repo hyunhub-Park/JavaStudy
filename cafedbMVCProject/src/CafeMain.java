@@ -2,6 +2,8 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 import com.kh.cafedbMVCProject.controller.CafeMenuRegisterManager;
+import com.kh.cafedbMVCProject.controller.EventRegisterManager;
+import com.kh.cafedbMVCProject.controller.ReviewRegisterManager;
 import com.kh.cafedbMVCProject.view.CAFE_MAIN_CHOICE;
 import com.kh.cafedbMVCProject.view.ScreenMenu;
 
@@ -10,7 +12,7 @@ public class CafeMain
 	public static Scanner scan = new Scanner(System.in);
 
 	public static void main(String[] args)
-	{
+	{		
 		int num;
 		boolean exitFlag = false;
 		
@@ -31,9 +33,17 @@ public class CafeMain
                 case CAFE_MAIN_CHOICE.TAKE_OUT:
                 	inOrout();
                     break;
+
+                case CAFE_MAIN_CHOICE.REVIEW:
+                	reviewMenu();
+                    break;
                     
                 case CAFE_MAIN_CHOICE.ORDER_CHECK:
                 	orderCheckMenu();
+                    break;
+                    
+                case CAFE_MAIN_CHOICE.ORDER_REVIEW_CHECK:
+                	orderReviewCheckMenu();
                     break;
 
                 case CAFE_MAIN_CHOICE.EXIT:
@@ -46,7 +56,8 @@ public class CafeMain
                 }
             } catch (Exception e) 
             {
-                System.out.println("\n입력에 오류가 있습니다.\n프로그램을 다시 시작하세요.");
+            	System.out.println(e.toString());
+                //System.out.println("\n입력에 오류가 있습니다.\n프로그램을 다시 시작하세요.");
                 return;
             }
         }	// end of while.
@@ -61,74 +72,58 @@ public class CafeMain
 		ScreenMenu.cafeMenu();
 	}
 	
+	private static void eventMenu()
+	{
+		ScreenMenu.eventMenu();
+	}
+	
 	private static void inOrout() throws SQLException
 	{
 		int num;
 		CafeMenuRegisterManager cmrm = new CafeMenuRegisterManager();
+		EventRegisterManager erm =  new EventRegisterManager();
 
 		// StudentRegisterManager studnetManager = new StudentRegisterManager();
 		ScreenMenu.afterInOut();
 		num = Integer.parseInt(scan.nextLine());
-		
-    	switch (num)
-    	{
-    	case 1:
-    		cafeMenu();
-    		cmrm.insertManager();
-    	case 2:
-    		//이벤트관련
-    	case 3:
-    		return;
-    		
-		default:
-			System.out.println("해당 메뉴 번호만 입력하세요.");
-    	}
-	}
-	
-	
-	private static void orderCheckMenu()
-	{
-		
-	}
-	
-	// 학생정보.
-	/*private static void studentMenu() throws SQLException
-	{
-		int no;
-		StudentRegisterManager srm = new StudentRegisterManager();
-
-		StudentRegisterManager studnetManager = new StudentRegisterManager();
-		MenuViewer.studentMenuView();
-		no = Integer.parseInt(sc.nextLine());
-		
-		switch (no)
-		{
-		
-		case STUDENT_CHOICE.INSERT:
-			System.out.println("");
-			srm.insertManager();
-			break;
-			
-		case STUDENT_CHOICE.UPDATE:
-			System.out.println("");
-//            studnetManager.studnetUpdate();
-			break;
-			
-		case STUDENT_CHOICE.LIST:
-			System.out.println("");
-//            studnetManager.studnetTotalList();
-			break;
-			
-		case STUDENT_CHOICE.DELETE:
-			System.out.println("");
-//            studnetManager.studnetTotalList();
-			break;
-			
-		case STUDENT_CHOICE.MAIN:
-			return;
-			
-		default:
-			System.out.println("해당 메뉴 번호만 입력하세요.");
+        
+		switch (num)
+        {
+        case 1:
+        	cafeMenu();
+        	cmrm.insertManager();
+        	break;
+        case 2:
+        	//이벤트관련
+        	eventMenu();
+        	erm.insertManager();
+        	break;
+        case 3:
+        	
+        	return;
+        	
+        default:
+        	System.out.println("해당 메뉴 번호만 입력하세요.");
         }
-	}*/
+	}
+	
+	private static void reviewMenu() throws SQLException
+	{
+		ScreenMenu.reviewMenu();
+		ReviewRegisterManager rrm = new ReviewRegisterManager();
+		rrm.insertManager();
+	}
+
+
+	private static void orderCheckMenu() throws SQLException
+	{
+		CafeMenuRegisterManager cmrm = new CafeMenuRegisterManager();
+		cmrm.selectManager();
+	}
+	
+	private static void orderReviewCheckMenu() throws SQLException
+	{
+		ReviewRegisterManager rrm = new ReviewRegisterManager();
+		rrm.selectManager();
+	}
 }
