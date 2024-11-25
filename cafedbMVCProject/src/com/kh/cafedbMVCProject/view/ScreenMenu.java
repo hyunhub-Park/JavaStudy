@@ -25,10 +25,10 @@ public class ScreenMenu
 		// 숫자 아니고 문자 받아야함^^^^^^^^^
 		System.out.println("------------------------------------CAFE MENU-----------------------------------");
 		System.out.println("              ■ COFFEE      ■ NON-COFFEE      ■ SNACKS      ■ DESSERTS");
-		System.out.println("                아메리카노         초코라떼          초코쿠키          초코케익");
-		System.out.println("                카페라떼          녹차라떼          버터쿠키          치즈케익");
-		System.out.println("                카푸치노          아이스티           두부칩           마카롱");
-		System.out.println("                카페모카          레몬에이드         이클립스          마들렌");
+		System.out.println("            아메리카노(4.0)     초코라떼(4.0)      초코쿠키(2.0)    초코케익(4.0)");
+		System.out.println("             카페라떼(4.5)      녹차라떼(4.0)      버터쿠키(2.0)   치즈케익(4.0)");
+		System.out.println("             카푸치노(5.0)      아이스티(3.5)       두부칩(3.0)     마카롱(3.0)");
+		System.out.println("             카페모카(5.0)     레몬에이드(4.0)      이클립스(2.0)    마들렌(3.0)");
 		System.out.println("---------------------------------------------------------------------------------");
 	}
 	
@@ -45,15 +45,15 @@ public class ScreenMenu
 	public static void reviewMenu()
 	{
 		System.out.println("-------------------------------------REVIEW--------------------------------------");
-		System.out.println("                           주문번호 입력 후, 리뷰를 남겨주세요!                           ");
+		System.out.println("                           주문번호 입력 후, 한 줄 리뷰를 남겨주세요!                      ");
 		System.out.println("---------------------------------------------------------------------------------");	
 	}
 	
-	public static void orderReviewCheckMenu()
+	/*public static void orderReviewCheckMenu()
 	{
 		System.out.println("-----------------------------------ORDER CHECK-----------------------------------");
 		System.out.println("                                주문번호를 입력해주세요.                               ");
 		System.out.println("---------------------------------------------------------------------------------");
 		System.out.print(">> ");
-	}
+	}*/
 }

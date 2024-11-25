@@ -30,35 +30,40 @@ public class EventVO
 	}
 	
 
-	public int getNo() {
+	public int getNo()
+	{
 		return no;
 	}
 
-	public void setNo(int no) {
+	public void setNo(int no)
+	{
 		this.no = no;
 	}
 
-	public String getArea() {
+	public String getArea()
+	{
 		return area;
 	}
 
-	public void setArea(String area) {
+	public void setArea(String area)
+	{
 		this.area = area;
 	}
 
-	public int getCount() {
+	public int getCount()
+	{
 		return count;
 	}
 
-	public void setCount(int count) {
+	public void setCount(int count)
+	{
 		this.count = count;
 	}
 
 	@Override
-	public String toString() {
-		return "EventVO [no=" + no + ", area=" + area + ", count=" + count + ", dessert=" + dessert + ", drink=" + drink
-				+ ", snack=" + snack + "]";
+	public String toString()
+	{
+		return "주문번호 " + String.format("%5d", no) +  ">>" + "이벤트 참여매장은 [" + String.format("%5s", area) + "]이며, 총 주문 수량은 " +
+							String.format("%5s", count) + "개 입니다.";
 	}
-	
-	
 }
