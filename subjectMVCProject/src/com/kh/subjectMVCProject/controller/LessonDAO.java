@@ -93,10 +93,23 @@ public class LessonDAO
 		try
 		{
 			con = DBUtility.dbCon();
+			// 1.
+			con.setAutoCommit(false);
 			pstmt = con.prepareStatement(LESSON_DELETE);
 			pstmt.setInt(1, lvo.getNo());
 			int count = pstmt.executeUpdate();
-			successFlag = count != 0 ? true : false;
+			
+			// successFlag = count != 0 ? true : false;
+			
+			if (count != 0)
+			{
+				con.commit();
+				successFlag = true;
+			} else
+			{
+				con.rollback();
+				successFlag = false;
+			}
 			
 		} catch (SQLException e)
 		{

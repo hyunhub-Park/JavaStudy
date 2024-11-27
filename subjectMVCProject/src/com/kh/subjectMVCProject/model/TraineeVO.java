@@ -2,29 +2,29 @@ package com.kh.subjectMVCProject.model;
 
 import java.sql.Date;
 
-public class TraineeVO
-{
-	private int no; 		//--pk seq
-	private String s_num;  	//--student(fk) 학생번호
-	private String abbre; 	//--lesson(fk) 과목요약
-	private String section; //--전공,부전공,교양
-	private Date registDate; 	//--수강신청일
-	
+public class TraineeVO {
+	private int no; // --pk seq
+	private String s_num; // --student(fk) 학생번호
+	private String abbre; // --lesson(fk) 과목요약
+	private String section; // --전공,부전공,교양
+	private Date registDate; // --수강신청일
+
+	// Student에 Join된
+	private String s_name;
+	private String l_name;
+
 	public TraineeVO()
 	{
 	}
-	
-	public TraineeVO(String s_num, String abbre, String section)
-	{
+
+	public TraineeVO(String s_num, String abbre, String section) {
 		super();
 		this.s_num = s_num;
 		this.abbre = abbre;
 		this.section = section;
 	}
-	
 
-	public TraineeVO(int no, String s_num, String abbre, String section, Date registDate)
-	{
+	public TraineeVO(int no, String s_num, String abbre, String section, Date registDate) {
 		super();
 		this.no = no;
 		this.s_num = s_num;
@@ -32,66 +32,89 @@ public class TraineeVO
 		this.section = section;
 		this.registDate = registDate;
 	}
-	
-	public int getNo()
-	{
+
+	// Join을 위한 생성자.
+	public TraineeVO(int no, String s_num, String abbre, String section, Date registDate, String s_name,
+			String l_name) {
+		super();
+		this.no = no;
+		this.s_num = s_num;
+		this.abbre = abbre;
+		this.section = section;
+		this.registDate = registDate;
+		this.s_name = s_name;
+		this.l_name = l_name;
+	}
+
+	public int getNo() {
 		return no;
 	}
-	
-	public void setNo(int no)
-	{
+
+	public void setNo(int no) {
 		this.no = no;
 	}
-	
-	public String getS_num()
-	{
+
+	public String getS_num() {
 		return s_num;
 	}
-	
-	public void setS_num(String s_num)
-	{
+
+	public void setS_num(String s_num) {
 		this.s_num = s_num;
 	}
-	
-	public String getAbbre()
-	{
+
+	public String getAbbre() {
 		return abbre;
 	}
-	
-	public void setAbbre(String abbre)
-	{
+
+	public void setAbbre(String abbre) {
 		this.abbre = abbre;
 	}
-	
-	public String getSection()
-	{
+
+	public String getSection() {
 		return section;
 	}
-	
-	public void setSection(String section)
-	{
+
+	public void setSection(String section) {
 		this.section = section;
 	}
-	
-	public Date getRegistDate()
-	{
+
+	public Date getRegistDate() {
 		return registDate;
 	}
-	
-	public void setRegistDate(Date registDate)
-	{
+
+	public void setRegistDate(Date registDate) {
 		this.registDate = registDate;
 	}
-	
-	@Override
-	public String toString()
-	{
-		return "[no=" + no + ", s_num=" + s_num + ", abbre=" + abbre + ", section=" + section + ", tdate="
-				+ registDate + "]";
+
+	public String getS_name() {
+		return s_name;
 	}
+
+	public void setS_name(String s_name) {
+		this.s_name = s_name;
+	}
+
+	public String getL_name() {
+		return l_name;
+	}
+
+	public void setL_name(String l_name) {
+		this.l_name = l_name;
+	}
+
+	@Override
+	public String toString() {
+		return "TraineeVO [no=" + no + ", s_num=" + s_num + ", abbre=" + abbre + ", section=" + section
+				+ ", registDate=" + registDate + ", s_name=" + s_name + ", l_name=" + l_name + "]";
+	}
+
+	public String toAllString() {
+		return "TraineeVO [no=" + no + ", s_num=" + s_num + ", abbre=" + abbre + ", section=" + section
+				+ ", registDate=" + registDate + ", s_name=" + s_name + ", l_name=" + l_name + "]";
+
+	}
+
 }
-
-
 
 //package com.kh.subjectMVCProject.model;
 //

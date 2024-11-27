@@ -1,6 +1,5 @@
 package com.kh.subjectMVCProject.controller;
 
-import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -13,14 +12,15 @@ import com.kh.subjectMVCProject.model.StudentAllVO;
 import com.kh.subjectMVCProject.model.StudentVO;
 
 
-public class StudentDAO {
-		
+public class StudentDAO
+{
 	public static final String STUDENT_SELECT = "SELECT * FROM STUDENT";
+	public static final String STUDENT_SELECT_SEARCH = "SELECT NUM, NAME, EMAIL FROM STUDENT WHERE NAME = ?";
     public static final String STUDENT_INSERT = "INSERT INTO STUDENT VALUES(STUDENT_SEQ.nextval, ?, ?, ?, ?, ?, ?, ?, ?, ?, sysdate)";
-    public static final String STUDENT_CALL_RANK_PROC = "{call STUDENT_RANK_PROC()}";
-    public static final String STUDENT_UPDATE = "UPDATE STUDENT SET NAME = ?, KOR = ?, ENG = ?, MAT = ? WHERE NO = ?";
+    // public static final String STUDENT_CALL_RANK_PROC = "{call STUDENT_RANK_PROC()}";
+    public static final String STUDENT_UPDATE = "UPDATE STUDENT SET BIRTHDAY=?, PHONE=?, ADDRESS=?, EMAIL=? WHERE NAME=?";
     public static final String STUDENT_DELETE = "DELETE FROM STUDENT WHERE NO = ?";
-    public static final String STUDENT_SORT = "SELECT *FROM STUDENT ORDER BY RANK";
+    public static final String STUDENT_SORT = "SELECT * FROM STUDENT ORDER BY RANK";
     public static final String STUDENT_ID_CHECK = "select COUNT(*) AS COUNT from student where id = ?";
     public static final String STUDENT_NUM_COUNT ="select LPAD(count(*)+1,4,'0') as TOTAL_COUNT from student where s_num = ?";
 	private static final String STUDENT_SUBJECT_JOIN_SELECT = "SELECT STU.NO, STU.NUM, STU.NAME, STU.ID, PASSWD, STU.S_NUM, SUB.NAME AS SUBJECT_NAME, BIRTHDAY, PHONE, ADDRESS, EMAIL, SDATE\r\n"
@@ -33,12 +33,16 @@ public class StudentDAO {
 		ArrayList<StudentVO> studentList = new ArrayList<StudentVO>();
 
 		con = DBUtility.dbCon();
-		try {
+		
+		try
+		{
 			stmt = con.createStatement();
 			rs = stmt.executeQuery(STUDENT_SELECT);
 			
-			if(rs.next()) {
-				do{
+			if(rs.next())
+			{
+				do
+				{
 					int no = rs.getInt("NO");
 					String num = rs.getString("NUM");
 					String name = rs.getString("NAME");
@@ -67,6 +71,58 @@ public class StudentDAO {
 		}
 		return studentList;
 	}
+														// 4.
+	public static ArrayList<StudentVO> studentNameSelect(String nameValue)	// 학번 확인해볼 수 있도록 이름을 검색. Manager만들 필요 없이 바로 받으면 됨.
+	{
+		Connection con = null;
+		// 1.
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ArrayList<StudentVO> studentList = new ArrayList<StudentVO>();
+
+		con = DBUtility.dbCon();
+		try
+		{
+			// 2.
+			pstmt = con.prepareStatement(STUDENT_SELECT_SEARCH);
+			// 3. svo를 만들어서 주든지, String을 하나 만들어서 하든지.
+			// pstmt.setString(1, svo.getName());
+			pstmt.setString(1, nameValue);
+			
+			// rs = stmt.executeQuery(STUDENT_SELECT_SEARCH);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next())
+			{
+				do
+				{
+					String num = rs.getString("NUM");
+					String name = rs.getString("NAME");
+					String email = rs.getString("EMAIL");
+					
+					StudentVO stu = new StudentVO();
+					// 이렇게 집어넣으면 됨.
+					stu.setNum(num);
+					stu.setName(name);
+					stu.setEmail(email);
+					
+					studentList.add(stu);
+				} while (rs.next());
+			} else
+			{
+				studentList = null; 
+			}
+		} catch (SQLException e)
+		{
+			System.out.println(e.toString());
+		} finally
+		{
+			// DBUtility.dbClose(con, stmt, rs);
+			DBUtility.dbClose(con, pstmt, rs);
+		}
+		return studentList;
+	}
+	
 	
 	public static boolean studentInsert(StudentVO svo)
 	{
@@ -102,28 +158,35 @@ public class StudentDAO {
 		return successFlag; 
 	}
 
-	public static boolean studentUpdate(StudentVO svo) throws SQLException {
+	public static boolean studentUpdate(StudentVO svo) throws SQLException
+	{
 		boolean successFlag = false; 
 		Connection con = null;
-		CallableStatement cstmt = null;
+		//CallableStatement cstmt = null;
 		PreparedStatement pstmt = null;
 
 		con = DBUtility.dbCon();
+		// birthday, phone, address, email, sdate
 		pstmt = con.prepareStatement(STUDENT_UPDATE);
-		pstmt.setString(1, svo.getName());
+		pstmt.setString(1, svo.getBirthday());
+		pstmt.setString(2, svo.getPhone());
+		pstmt.setString(3, svo.getAddress());
+		pstmt.setString(4, svo.getEmail());
+		pstmt.setString(5, svo.getName());
 		
 
-		int result1 = pstmt.executeUpdate();
-		cstmt = con.prepareCall(STUDENT_CALL_RANK_PROC);
-		int result2 = cstmt.executeUpdate();
+		int result = pstmt.executeUpdate();
+		// cstmt = con.prepareCall(STUDENT_CALL_RANK_PROC);
+		// int result2 = cstmt.executeUpdate();
 		
-		successFlag = (result1 != 0 && result2 != 0) ? true : false;
+		successFlag = (result != 0) ? true : false;
 
-		DBUtility.dbClose(con, pstmt, cstmt);
+		DBUtility.dbClose(con, pstmt);
 		return successFlag; 
 	}
 
-	public static boolean studentDelete(StudentVO svo) throws SQLException {
+	public static boolean studentDelete(StudentVO svo) throws SQLException
+	{
 		boolean successFlag =false; 
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -138,18 +201,22 @@ public class StudentDAO {
 		return successFlag; 
 	}
 
-	public static ArrayList<StudentVO> studentSort() throws SQLException {
+	public static ArrayList<StudentVO> studentSort() throws SQLException
+	{
 		Connection con = null;
 		Statement stmt = null;
 		ResultSet rs = null;
-		ArrayList<StudentVO> studentList = new ArrayList<StudentVO>();
+		
+		ArrayList<StudentVO> studentList = new ArrayList <StudentVO>();
 
 		con = DBUtility.dbCon();
 		stmt = con.createStatement();
 		rs = stmt.executeQuery(STUDENT_SORT);
 
-		if(rs.next()) {
-			do {
+		if(rs.next())
+		{
+			do
+			{
 				int no = rs.getInt("NO");
 				String name = rs.getString("NAME");
 				int kor = rs.getInt("KOR");
@@ -178,7 +245,8 @@ public class StudentDAO {
 		ResultSet rs = null;
 		int count = 0; 
 
-		try {
+		try
+		{
 			con = DBUtility.dbCon();
 			pstmt = con.prepareStatement(STUDENT_ID_CHECK);
 			pstmt.setString(1, svo.getId());
@@ -213,7 +281,8 @@ public class StudentDAO {
 		
 		con = DBUtility.dbCon();
 		
-		try {
+		try
+		{
 			pstmt = con.prepareStatement(STUDENT_NUM_COUNT);
 			pstmt.setString(1, svo.getS_num());
 			rs = pstmt.executeQuery();
@@ -224,7 +293,8 @@ public class StudentDAO {
 			{
 				result = null;
 			}
-		} catch (SQLException e) {
+		} catch (SQLException e)
+		{
 			System.out.println(e.toString());
 		} finally
 		{	// 실행 되든 안되든 종료.
@@ -240,16 +310,21 @@ public class StudentDAO {
 		Connection con = null;
 		Statement stmt = null;
 		ResultSet rs = null;
+	
 		ArrayList <StudentAllVO> studentAllList = new ArrayList <StudentAllVO>();
 
 		con = DBUtility.dbCon();
-		try {
+		
+		try
+		{
 			stmt = con.createStatement();
 				// student and subject
 			rs = stmt.executeQuery(STUDENT_SUBJECT_JOIN_SELECT);
 			
-			if(rs.next()) {
-				do{
+			if(rs.next())
+			{
+				do
+				{
 					int no = rs.getInt("NO");
 					String num = rs.getString("NUM");
 					String name = rs.getString("NAME");
@@ -266,7 +341,7 @@ public class StudentDAO {
 					
 					StudentAllVO stu = new StudentAllVO(no, num, name, id, passwd, s_num, s_name, birthday, phone, address, email, sdate);
 					studentAllList.add(stu);
-				}while (rs.next());
+				} while (rs.next());
 			} else
 			{
 				studentAllList = null; 

@@ -63,25 +63,36 @@ public class SubjectMain
 
 		MenuViewer.traineeMenuView();
 		no = Integer.parseInt(sc.nextLine());
-		switch (no) {
-		case TRAINEE_CHOICE.INSERT:
-			System.out.println("");
-		//	srm.insertManager();
-			break;
-		case TRAINEE_CHOICE.UPDATE:
-			System.out.println("");
-//			studnetManager.studnetUpdate();
-			break;
+		switch (no)
+		{
 		case TRAINEE_CHOICE.LIST:
 			System.out.println("");
-//			studnetManager.studnetTotalList();
+			trm.selectManager();
 			break;
+
+		case TRAINEE_CHOICE.INSERT:
+			System.out.println("");
+			trm.insertManager();
+			break;
+		
+		case TRAINEE_CHOICE.UPDATE:
+			System.out.println("");
+			trm.updateManager();
+			break;
+			
 		case TRAINEE_CHOICE.DELETE:
 			System.out.println("");
-//			studnetManager.studnetTotalList();
+			trm.deleteManager();
 			break;
+		
+		case TRAINEE_CHOICE.JOIN_LIST:
+			System.out.println("");
+			trm.totalSelectManager();
+			break;
+		
 		case TRAINEE_CHOICE.MAIN:
 			return;
+		
 		default:
 			System.out.println("해당 메뉴 번호만 입력하세요.");
 		}
@@ -185,6 +196,7 @@ public class SubjectMain
 		case STUDENT_CHOICE.UPDATE:
 			System.out.println("");
 //			studnetManager.studnetUpdate();
+			srm.updateManager();
 			break;
 		
 		case STUDENT_CHOICE.LIST:
@@ -195,6 +207,7 @@ public class SubjectMain
 		case STUDENT_CHOICE.DELETE:
 			System.out.println("");
 //			studnetManager.studnetTotalList();
+			srm.deleteManager();
 			break;
 			
 		case STUDENT_CHOICE.LIST_ALL:

@@ -26,9 +26,24 @@ public class StudentRegisterManager {
 		}
 		printStudentList(studentList);
 	}
+	
+	public void selectNameSearchManager()
+	{
+		StudentDAO sdao = new StudentDAO();
+		ArrayList<StudentVO> studentList = new ArrayList<StudentVO>();
+		
+		System.out.print("학생 이름을 입력하세요 : ");
+		String name = sc.nextLine();
+		studentList = sdao.studentNameSelect(name);
+		if (studentList == null) {
+			System.out.println("데이터가 존재하지 않습니다.");
+			return;
+		}
+		printStudentList(studentList);
+	}
 
-	public void insertManager() throws SQLException {
-
+	public void insertManager() throws SQLException
+	{
 		SubjectDAO subjectDao = new SubjectDAO();
 		StudentDAO studentDao = new StudentDAO();
 		ArrayList<SubjectVO> subjectList = null;
@@ -36,8 +51,10 @@ public class StudentRegisterManager {
 		
 		System.out.println("학생 정보 입력");
 		System.out.print("성명 >>");
+		
 		String name = sc.nextLine();
 		String id = null;
+		
 		do {
 			System.out.print("아이디(8자 이상 12자 이내) : ");
 			id = sc.nextLine();
@@ -70,7 +87,9 @@ public class StudentRegisterManager {
 		SimpleDateFormat sdf = new SimpleDateFormat("yy");
 		String year = sdf.format(new Date());
 		svo.setS_num(s_num);
+		
 		String result = studentDao.getStudentCount(svo);
+		
 		if (result == null)
 		{
 			System.out.println("학생번호 생성부분에 문제 발생.");
@@ -79,6 +98,7 @@ public class StudentRegisterManager {
 		{
 			System.out.println("학생번호 생성");
 		}				   // 학과번호.
+		
 		String num = year + s_num + result;
 		// String num = year + s_num + "0001";
 
@@ -98,7 +118,8 @@ public class StudentRegisterManager {
 
 		boolean successFlag = studentDao.studentInsert(studentVO);
 
-		if (successFlag == false) {
+		if (successFlag == false)
+		{
 			System.out.println("입력처리 실패");
 			return;
 		}
@@ -109,19 +130,26 @@ public class StudentRegisterManager {
 		// sd.getStudent(svo.getSd_id(), svo.getSd_passwd());
 	}
 
-	public void updateManager() throws SQLException {
-		System.out.print("수정할 학생의 번호를 입력하세요: ");
-		int no = Integer.parseInt(sc.nextLine());
-		System.out.print("새로운 이름을 입력하세요: ");
+	public void updateManager() throws SQLException
+	{
+		// birthday, phone, address, email, sdate
+		
+		System.out.println("이름을 입력하세요 : ");
 		String name = sc.nextLine();
-		System.out.print("새로운 국어 점수를 입력하세요: ");
-		int kor = Integer.parseInt(sc.nextLine());
-		System.out.print("새로운 영어 점수를 입력하세요: ");
-		int eng = Integer.parseInt(sc.nextLine());
-		System.out.print("새로운 수학 점수를 입력하세요: ");
-		int mat = Integer.parseInt(sc.nextLine());
+		
+		System.out.print("수정할 생년월일(8자리: 19900829) : ");
+		String birthday = sc.nextLine();
+		
+		System.out.print("수정할 전화번호 :010-2971-4011");
+		String phone = sc.nextLine();
+		
+		System.out.print("수정할 주소 : ");
+		String address = sc.nextLine();
+		
+		System.out.print("수정할 이메일   : ");
+		String email = sc.nextLine();
 
-		StudentVO svo = new StudentVO();
+		StudentVO svo = new StudentVO(name, birthday, phone, address, email);
 		boolean successFlag = StudentDAO.studentUpdate(svo);
 
 		if (successFlag == true) {
@@ -131,21 +159,27 @@ public class StudentRegisterManager {
 		}
 	}
 
-	public void deleteManager() throws SQLException {
+	public void deleteManager() throws SQLException
+	{
 		System.out.print("삭제할 학생 번호를 입력하세요: ");
 		int no = Integer.parseInt(sc.nextLine());
+		
 		StudentVO svo = new StudentVO();
 		svo.setNo(no);
+		
 		boolean successFlag = StudentDAO.studentDelete(svo);
 
-		if (successFlag == true) {
+		if (successFlag == true)
+		{
 			System.out.println("삭제처리 성공");
-		} else {
+		} else
+		{
 			System.out.println("삭제처리 실패");
 		}
 	}
 
-	public void sortManager() throws SQLException {
+	public void sortManager() throws SQLException
+	{
 		ArrayList<StudentVO> studentList = null;
 		studentList = StudentDAO.studentSort();
 		printStudentList(studentList);
@@ -157,15 +191,18 @@ public class StudentRegisterManager {
 		ArrayList <StudentAllVO> studentAllList = new ArrayList <StudentAllVO>();
 		
 		studentAllList = sdao.studentAllSelect();
-		if (studentAllList == null) {
+		
+		if (studentAllList == null)
+		{
 			System.out.println("데이터가 존재하지 않습니다.");
 			return;
 		}
+		
 		printStudentList2(studentAllList);
 	}
 	
 	
-	private void printStudentList2(ArrayList <StudentAllVO> studentAllList)
+	public void printStudentList2(ArrayList <StudentAllVO> studentAllList)
 	{
 
 		System.out.println("============================================");
@@ -185,17 +222,7 @@ public class StudentRegisterManager {
 		}
 		System.out.println("============================================");
 	}
-
 }
-
-
-
-
-
-
-
-
-
 
 
 //package com.kh.subjectMVCProject.controller;

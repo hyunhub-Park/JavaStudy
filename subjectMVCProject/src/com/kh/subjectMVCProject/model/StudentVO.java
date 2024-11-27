@@ -18,6 +18,29 @@ public class StudentVO {
 	public StudentVO() {
 	}
 
+	// birthday, phone, address, email, sdate
+	public StudentVO(String name, String birthday, String phone, String address, String email, Date sdate)
+	{
+		super();
+		this.name = name;
+		this.birthday = birthday;
+		this.phone = phone;
+		this.address = address;
+		this.email = email;
+		this.sdate = sdate;
+	}
+	
+	// birthday, phone, address, email
+		public StudentVO(String name, String birthday, String phone, String address, String email)
+		{
+			super();
+			this.name = name;
+			this.birthday = birthday;
+			this.phone = phone;
+			this.address = address;
+			this.email = email;
+		}
+	
 	public StudentVO(int no, String num, String name, String id, String passwd, String s_num, String birthday,
 			String phone, String address, String email, Date sdate) {
 		super();
