@@ -32,8 +32,6 @@ public class EventDAO
 				String area = rs.getString("AREA");
 				int count = rs.getInt("COUNT");
 				
-				
-				
 				EventVO evo = new EventVO(no, area, count);
 				eventList.add(evo);
 			} while (rs.next());

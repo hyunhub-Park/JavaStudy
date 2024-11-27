@@ -6,10 +6,11 @@ import com.kh.cafedbMVCProject.controller.EventRegisterManager;
 import com.kh.cafedbMVCProject.controller.ReviewRegisterManager;
 import com.kh.cafedbMVCProject.view.CAFE_MAIN_CHOICE;
 import com.kh.cafedbMVCProject.view.ScreenMenu;
-// 주문번호를 입력하여 자신의 주문건만 조회할 수 있는 기능.
-// ✔ VL사용하여 NULL값을 적절한 문구로 대체하기.
+// ✔ 주문번호를 입력하여 자신의 주문건만 조회할 수 있는 기능.
+// ✔ NVL사용하여 NULL값을 적절한 문구로 대체하기.
 // 메뉴 주문 시 수량도 함께 받을 수 있도록.
-// 주문 날짜 및 시간 함께 출려될 수 있도록.
+// 주문 날짜 및 시간 함께 출력될 수 있도록.
+// 예외처리 세부적으로 추가하기.
 public class CafeMain
 {
 	public static Scanner scan = new Scanner(System.in);
@@ -126,6 +127,7 @@ public class CafeMain
 	private static void orderCheckAllMenu() throws SQLException
 	{
 		ReviewRegisterManager rrm = new ReviewRegisterManager();
-		rrm.selectAllManager();
+		rrm.selectAllselManager();
+		//rrm.selectAllManager();
 	}
 }

@@ -13,6 +13,12 @@ public class OrderCheckAllVO
 	{
 		super();
 	}
+	
+	public OrderCheckAllVO(int m_num)
+	{
+		super();
+		this.m_num = m_num;
+	}
 
 	public OrderCheckAllVO(int m_num, String drink, String snack, String dessert, String review)
 	{

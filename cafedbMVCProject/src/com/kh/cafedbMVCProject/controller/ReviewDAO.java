@@ -14,7 +14,9 @@ import com.kh.cafedbMVCProject.model.ReviewVO;
 public class ReviewDAO
 {
 	public static final String REVIEW_SELECT = "SELECT M.NO, M.DRINK, M.SNACK, M.DESSERT, R.REVIEW FROM REVIEW R INNER JOIN MENU M ON R.M_NUM=M.NO WHERE M_NUM=R.M_NUM";
-	// public static final String ORDER_CHECK_ALL = "SELECT M_NUM, M.DRINK, M.SNACK, M.DESSERT, R.REVIEW FROM REVIEW R INNER JOIN MENU M ON R.M_NUM=M.NO";
+	
+	public static final String ORDER_CHECK_SEL = "SELECT M.NO, M.DRINK, M.SNACK, M.DESSERT, R.REVIEW FROM REVIEW R INNER JOIN MENU M ON R.M_NUM=M.NO WHERE M_NUM=?";
+	
 	public static final String ORDER_CHECK_ALL = "SELECT M_NUM, M.DRINK, NVL(M.SNACK, ' ') AS SNACK, NVL(M.DESSERT, ' ') AS DESSERT, R.REVIEW FROM REVIEW R INNER JOIN MENU M ON R.M_NUM=M.NO";
 	public static final String REVIEW_INSERT = "INSERT INTO REVIEW(M_NUM, REVIEW) VALUES(?, ?)";
 	
@@ -49,7 +51,6 @@ public class ReviewDAO
 		return reviewList;
 	}
 	
-	// 해당 학과와 학생정보를 조인해 정보 가져오기.
 	public ArrayList <OrderCheckAllVO> orderCheckAllSelect()
 	{
 		Connection con = null;
@@ -112,5 +113,64 @@ public class ReviewDAO
 		
 		return successFlag;
 	}
+	
+	public ArrayList<OrderCheckAllVO> orderCheckSel(OrderCheckAllVO ocavo) throws SQLException
+	{
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		ArrayList <OrderCheckAllVO> orderCheckAllList = new ArrayList <OrderCheckAllVO>();
+		con = DBUtility.dbCon();
+		
+		pstmt = con.prepareStatement(ORDER_CHECK_SEL);
+		pstmt.setInt(1, ocavo.getM_num());
+		
+		rs = pstmt.executeQuery();
+		
+		if (rs.next())
+		{
+			do {
+				int m_num = rs.getInt("NO");
+				String drink = rs.getString("DRINK");
+				String snack = rs.getString("SNACK");
+				String dessert = rs.getString("DESSERT");
+				String review = rs.getString("REVIEW");
 
+				ocavo = new OrderCheckAllVO(m_num, drink, snack, dessert, review);
+				orderCheckAllList.add(ocavo);
+				
+			} while (rs.next());
+		}
+
+		
+		/*try {
+			stmt = con.createStatement();
+			rs = stmt.executeQuery(ORDER_CHECK_ALL);		
+
+			if (rs.next())
+			{
+				do {
+					int m_num = rs.getInt("M_NUM");
+					String drink = rs.getString("DRINK");
+					String snack = rs.getString("SNACK");
+					String dessert = rs.getString("DESSERT");
+					String review = rs.getString("REVIEW");
+
+					OrderCheckAllVO ocavo2 = new OrderCheckAllVO(m_num);
+					orderCheckAllList.add(ocavo2);
+					
+				} while (rs.next());
+			} else {
+			orderCheckAllList = null;
+			}
+		} catch (SQLException e)
+		{
+			System.out.println(e.toString() + "DAO 오류.");
+		} finally
+		{
+			DBUtility.dbClose(con, stmt, rs);
+		}*/
+		return orderCheckAllList;
+	}
 }

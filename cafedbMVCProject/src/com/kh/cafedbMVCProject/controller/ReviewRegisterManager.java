@@ -48,6 +48,29 @@ public class ReviewRegisterManager
 		printOrderCheckAllList(OrderCheckAllList);		
 	}
 	
+	public void selectAllselManager() throws SQLException
+	{
+		ReviewDAO rdao = new ReviewDAO();
+		ArrayList <OrderCheckAllVO> OrderCheckAllList = new ArrayList <OrderCheckAllVO>();
+		
+		/*OrderCheckAllVO ocavo = new OrderCheckAllVO();
+
+		System.out.println("주문번호 >> ");
+		int input = scan.nextInt();*/
+
+		System.out.print("주문번호 >> ");
+		int input = scan.nextInt();
+		
+		OrderCheckAllVO ocavo = new OrderCheckAllVO(input);
+		OrderCheckAllList = rdao.orderCheckSel(ocavo);
+		if (OrderCheckAllList == null)
+		{
+			System.out.println("데이터가 존재하지 않습니다.");
+			return;
+		}
+		printOrderCheckAllList(OrderCheckAllList);		
+	}
+	
 	public static void insertManager() throws SQLException
 	{	        
         ReviewDAO rd = new ReviewDAO();
@@ -74,8 +97,7 @@ public class ReviewRegisterManager
 		{
 			System.out.println("리뷰 작성 완료!");
 		}
-
-	}
+	}	
 	
 	private void printOrderCheckAllList(ArrayList <OrderCheckAllVO> OrderCheckAllList)
 	{

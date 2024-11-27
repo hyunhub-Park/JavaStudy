@@ -13,6 +13,12 @@ public class ReviewVO
 	{
 	}
 
+	public ReviewVO(int m_num)
+	{
+		super();
+		this.m_num = m_num;
+	}
+	
 	public ReviewVO(String review)
 	{
 		super();
