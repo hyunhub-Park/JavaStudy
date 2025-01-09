@@ -4,14 +4,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import com.kh.subjectMVCProject.model.SubjectVO;
+import com.kh.subjectMVCProject.model.LandPriceVO;
 
 
 public class SubjectRegisterManager {
 	public static Scanner sc = new Scanner(System.in); 
 	//전체 학생리스트를 출력요청
 	public static void selectManager() throws SQLException {
-		ArrayList<SubjectVO> subjectList = new ArrayList<SubjectVO>();
+		ArrayList<LandPriceVO> subjectList = new ArrayList<LandPriceVO>();
 		SubjectDAO subDAO = new SubjectDAO(); 
 		subjectList = subDAO.subjectSelect();
 		if(subjectList == null) {
@@ -23,7 +23,7 @@ public class SubjectRegisterManager {
 
 	public static void insertManager() throws SQLException {
 		SubjectDAO sd = new SubjectDAO();
-		ArrayList<SubjectVO> subjectList = null; 
+		ArrayList<LandPriceVO> subjectList = null; 
 		String num; // 학과 번호
 		String name; // 학과명
 
@@ -42,7 +42,7 @@ public class SubjectRegisterManager {
 		System.out.print("학과명>>");
 		name = sc.nextLine();
 
-		SubjectVO svo = new SubjectVO(num,name);
+		LandPriceVO svo = new LandPriceVO(num,name);
 		boolean successFlag = sd.subjectInsert(svo);
 
 		if(successFlag == false) {
@@ -62,7 +62,7 @@ public class SubjectRegisterManager {
 	public static void updateManager() throws SQLException {
 		SubjectDAO sd = new SubjectDAO();
 		//전체학과리스트를 보여준다.
-		ArrayList<SubjectVO> subjectList = sd.subjectSelect();
+		ArrayList<LandPriceVO> subjectList = sd.subjectSelect();
 		if(subjectList == null) {
 			System.out.println("데이터가 존재하지 않습니다.");
 		}
@@ -73,7 +73,7 @@ public class SubjectRegisterManager {
 		System.out.print("수정할 학과 이름을 입력하세요: ");
 		String name = sc.nextLine();
 		
-		SubjectVO svo = new SubjectVO(num, name);
+		LandPriceVO svo = new LandPriceVO(num, name);
 		
 		boolean successFlag = sd.subjectUpdate(svo); 
 		
@@ -89,7 +89,7 @@ public class SubjectRegisterManager {
 		
 		System.out.print("삭제할 학과 번호를 입력하세요: ");
 		String num = (sc.nextLine()).trim();
-		SubjectVO svo = new SubjectVO();
+		LandPriceVO svo = new LandPriceVO();
 		svo.setNum(num);
 		boolean successFlag = sd.subjectDelete(svo);
 		
@@ -102,7 +102,7 @@ public class SubjectRegisterManager {
 
 	public static void sortManager() throws SQLException {
 		SubjectDAO sd = new SubjectDAO();
-		ArrayList<SubjectVO> subjectList = null;
+		ArrayList<LandPriceVO> subjectList = null;
 		subjectList = sd.subjectSort();
 		if(subjectList == null) {
 			System.out.println("데이터가 존재하지 않습니다.");
@@ -112,9 +112,9 @@ public class SubjectRegisterManager {
 	}
 
 	//전체 학생리스트를 출력진행
-	public static void printSubjectList(ArrayList<SubjectVO> subjectList) {
+	public static void printSubjectList(ArrayList<LandPriceVO> subjectList) {
 		System.out.println("============================================");
-		for( SubjectVO sv :  subjectList) {
+		for( LandPriceVO sv :  subjectList) {
 			System.out.println(sv.toString());
 		}
 		System.out.println("============================================");

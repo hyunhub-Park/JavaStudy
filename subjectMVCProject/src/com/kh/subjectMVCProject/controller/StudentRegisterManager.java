@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 import com.kh.subjectMVCProject.model.StudentAllVO;
 import com.kh.subjectMVCProject.model.StudentVO;
-import com.kh.subjectMVCProject.model.SubjectVO;
+import com.kh.subjectMVCProject.model.LandPriceVO;
 
 public class StudentRegisterManager {
 	public static Scanner sc = new Scanner(System.in);
@@ -46,7 +46,7 @@ public class StudentRegisterManager {
 	{
 		SubjectDAO subjectDao = new SubjectDAO();
 		StudentDAO studentDao = new StudentDAO();
-		ArrayList<SubjectVO> subjectList = null;
+		ArrayList<LandPriceVO> subjectList = null;
 		StudentVO svo = new StudentVO();
 		
 		System.out.println("학생 정보 입력");

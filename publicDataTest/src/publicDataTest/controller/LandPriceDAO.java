@@ -1,4 +1,4 @@
-package com.kh.subjectMVCProject.controller;
+package publicDataTest.controller;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,44 +7,62 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import com.kh.subjectMVCProject.model.LandPriceVO;
+import publicDataTest.model.LandPriceVO;
 
-
-public class SubjectDAO {
+public class LandPriceDAO
+{
 		
-	public static final String SUBJECT_SELECT = "SELECT * FROM SUBJECT";
-    public static final String SUBJECT_INSERT = "insert into subject(no, num, name) values(subject_seq.nextval, ?, ?)";
-    public static final String SUBJECT_CALL_RANK_PROC = "{call STUDENT_RANK_PROC()}";
-    public static final String SUBJECT_UPDATE = "UPDATE SUBJECT SET NAME = ? WHERE NUM = ?";
-    public static final String SUBJECT_DELETE = "DELETE FROM SUBJECT WHERE NUM = ?";
-    public static final String SUBJECT_SORT = "SELECT * FROM SUBJECT ORDER BY NUM";
+	public final String LANDPRICE_SELECT = "SELECT * FROM LANDPRICE";
+	public final String LANDPRICE_CHECK_NODENO_SELECT = "SELECT COUNT(*) AS COUNT FROM LANDPRICE WHERE NODENO = ?";
+    public final String LANDPRICE_INSERT = "insert into LANDPRICE values(?, ?, ?, ?, ?)";
+    public final String LANDPRICE_UPDATE = "UPDATE LANDPRICE SET GPSLATI = ?, GPSLONG = ?, NODEID = ?, NODENM = ? WHERE NODENO = ?";
+    public final String LANDPRICE_DELETE = "DELETE FROM LANDPRICE WHERE NODENO = ?";
+    // public final String LANDPRICE_SORT = "SELECT * FROM LANDPRICE ORDER BY NODENM";
 	
-	public ArrayList<LandPriceVO> subjectSelect() throws SQLException {
+	public ArrayList <LandPriceVO> landPriceSelect()
+	{
 		Connection con = null;
 		Statement stmt = null;
 		ResultSet rs = null;
-		ArrayList<LandPriceVO> subjectList = new ArrayList<LandPriceVO>();
+		ArrayList <LandPriceVO> landpriceVOList = new ArrayList <LandPriceVO>();
 
 		con = DBUtility.dbCon();
-		stmt = con.createStatement();
-		rs = stmt.executeQuery(SUBJECT_SELECT);
+		try {
+			stmt = con.createStatement();
+			rs = stmt.executeQuery(LANDPRICE_SELECT);
 
-		if(rs.next()) {
-			do{
-				int no = rs.getInt("NO");
-				String num = rs.getString("NUM");
-				String name = rs.getString("NAME");
-				LandPriceVO svo = new LandPriceVO(no, num, name); 
-				subjectList.add(svo);
-			}while (rs.next());
-		}else {
-			subjectList = null; 
+			if(rs.next())
+			{
+				do
+				{
+					int nodeno = rs.getInt("NODENO");
+					double gpslati = rs.getDouble("GPSLATI");
+					double gpslong = rs.getDouble("GPSLONG");
+					String nodeid = rs.getString("NODEID");
+					String nodenm = rs.getString("NODENM");
+					LandPriceVO lvo = new LandPriceVO(nodeno, gpslati, gpslong, nodeid, nodenm);
+					
+					landpriceVOList.add(lvo);
+				} while (rs.next());
+			} else
+			{
+				landpriceVOList = null; 
+			}
+		} catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally
+		{
+			DBUtility.dbClose(con, stmt, rs);
 		}
-		DBUtility.dbClose(con, stmt, rs);
-		return subjectList;
+		
+		
+		return landpriceVOList;
 	}
 	
-	public boolean subjectInsert(LandPriceVO svo) throws SQLException  {
+	public boolean landPriceInsert(LandPriceVO lvo) throws SQLException
+	{
 		//Conection
 		boolean successFlag = false; 
 		Connection con = null;
@@ -53,9 +71,12 @@ public class SubjectDAO {
 		// 1 Load, 2. connect
 		con = DBUtility.dbCon();
 
-		pstmt = con.prepareStatement(SUBJECT_INSERT);
-		pstmt.setString(1, svo.getNum());
-		pstmt.setString(2, svo.getName());
+		pstmt = con.prepareStatement(LANDPRICE_INSERT);
+		pstmt.setInt(1, lvo.getNodeno());
+		pstmt.setDouble(2, lvo.getGpslati());
+		pstmt.setDouble(3, lvo.getGpslong());
+		pstmt.setString(4, lvo.getNodeId());
+		pstmt.setString(5, lvo.getNodenm());
 		
 		int result = pstmt.executeUpdate();
 		
@@ -64,63 +85,79 @@ public class SubjectDAO {
 		return successFlag; 
 	}
 
-	public static boolean subjectUpdate(LandPriceVO svo) throws SQLException {
+	public boolean landPriceUpdate(LandPriceVO lvo) throws SQLException
+	{
 		boolean successFlag = false; 
 		Connection con = null;
 		PreparedStatement pstmt = null;
 
 		con = DBUtility.dbCon();
-		pstmt = con.prepareStatement(SUBJECT_UPDATE);
-		pstmt.setString(1, svo.getName());
-		pstmt.setString(2, svo.getNum());
+		pstmt = con.prepareStatement(LANDPRICE_UPDATE);
+		pstmt.setDouble(1, lvo.getGpslati());
+		pstmt.setDouble(2, lvo.getGpslong());
+		pstmt.setString(3, lvo.getNodeId());
+		pstmt.setString(4, lvo.getNodenm());
+		pstmt.setInt(5, lvo.getNodeno());
+		
 		int result = pstmt.executeUpdate();
-		successFlag = (result != 0 ) ? true : false;
+		
 		DBUtility.dbClose(con, pstmt);
+		successFlag = (result != 0 ) ? true : false;
 		return successFlag; 
 	}
 
-	public static boolean subjectDelete(LandPriceVO svo) throws SQLException {
+	public boolean landPriceDelete(LandPriceVO lpvo)
+	{
 		boolean successFlag =false; 
 		Connection con = null;
 		PreparedStatement pstmt = null;
 
-		con = DBUtility.dbCon();
-		pstmt = con.prepareStatement(SUBJECT_DELETE);
-		pstmt.setString(1, svo.getNum());
-		int result = pstmt.executeUpdate();
-		successFlag = (result != 0) ? true : false ;
-		DBUtility.dbClose(con, pstmt);
+		try
+		{
+			con = DBUtility.dbCon();
+			pstmt = con.prepareStatement(LANDPRICE_DELETE);
+			pstmt.setInt(1, lpvo.getNodeno());
+			int result = pstmt.executeUpdate();
+			successFlag = (result != 0) ? true : false ;
+		} catch (SQLException e)
+		{
+			System.out.println(e.toString());
+		} finally
+		{
+			DBUtility.dbClose(con, pstmt);
+		}
 		return successFlag; 
 	}
 
-	public static ArrayList<LandPriceVO> subjectSort() throws SQLException {
+	public int landPriceCheckNodeNoSelect(LandPriceVO lpvo)
+	{
 		Connection con = null;
-		Statement stmt = null;
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		ArrayList<LandPriceVO> subjectList = new ArrayList<LandPriceVO>();
-
+		ArrayList <LandPriceVO> landpriceVOList = new ArrayList <LandPriceVO>();
+		int count = 0;
+		
+		try
+		{
 		con = DBUtility.dbCon();
-		stmt = con.createStatement();
-		rs = stmt.executeQuery(SUBJECT_SORT);
-
-		if(rs.next()) {
-			do {
-				int no = rs.getInt("NO");
-				String num = rs.getString("NUM");
-				String name = rs.getString("NAME");
-				
-				LandPriceVO svo = new LandPriceVO(no, num, name); 
-				subjectList.add(svo);
-			} while (rs.next());
-		}else {
-			subjectList = null; 
+			pstmt = con.prepareStatement(LANDPRICE_CHECK_NODENO_SELECT);
+			pstmt.setInt(1, lpvo.getNodeno());
+			rs = pstmt.executeQuery();
+			
+			if(rs.next())
+			{
+				count = rs.getInt("COUNT");
+			}
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+		} finally
+		{
+			DBUtility.dbClose(con, pstmt, rs);
 		}
-
-		DBUtility.dbClose(con, stmt, rs);
-		return subjectList; 
+		
+		return count;
 	}
-
-
 }
 
 
